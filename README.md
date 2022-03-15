@@ -1,2 +1,3 @@
-# Example
-An example greeter plugin
+# Godbook
+
+Displays an overlay that assists in aligning godbook preach timings.
