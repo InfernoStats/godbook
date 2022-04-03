@@ -8,21 +8,14 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.AnimationChanged;
-import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
-import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.LinkedHashMap;
 
 @Slf4j
 @PluginDescriptor(
@@ -31,7 +24,7 @@ import java.util.stream.IntStream;
 public class GodbookPlugin extends Plugin
 {
 	@Getter(AccessLevel.MODULE)
-	private HashMap<String, Integer> players;
+	private LinkedHashMap<String, Integer> players;
 
 	@Inject
 	private Client client;
@@ -54,7 +47,7 @@ public class GodbookPlugin extends Plugin
 	@Override
 	protected void startUp() throws Exception
 	{
-		players = new HashMap<>();
+		players = new LinkedHashMap<>();
 		overlayManager.add(overlay);
 	}
 
