@@ -29,7 +29,7 @@ class GodbookOverlay extends Overlay
 	public Dimension render(Graphics2D graphics)
 	{
 		String title = "Tick:";
-		HashMap<String, Integer> players = plugin.getPlayers();
+		HashMap<String, Preach> players = plugin.getPlayers();
 
 		panelComponent.getChildren().clear();
 
@@ -44,15 +44,19 @@ class GodbookOverlay extends Overlay
 		return panelComponent.render(graphics);
 	}
 
-	private int getMaxWidth(Graphics2D graphics, HashMap<String, Integer> players, String title)
+	private int getMaxWidth(Graphics2D graphics, HashMap<String, Preach> players, String title)
 	{
 		String longestKey = Collections.max(players.keySet(), Comparator.comparingInt(String::length));
-		return graphics.getFontMetrics().stringWidth(longestKey) + graphics.getFontMetrics().stringWidth(title);
+		return graphics.getFontMetrics().stringWidth(longestKey) + graphics.getFontMetrics().stringWidth(title) + graphics.getFontMetrics().stringWidth("(157)");
 	}
 
-	private void addPlayerToOverlay(String playerName, Integer ticks)
+	private void addPlayerToOverlay(String playerName, Preach preach)
 	{
-		panelComponent.getChildren().add(LineComponent.builder().left(playerName).right(Integer.toString(ticks)).build());
+		panelComponent.getChildren().add(LineComponent.builder()
+				.leftColor(preach.preachedWithRing ? Color.YELLOW : Color.WHITE)
+				.left(playerName)
+				.right(Integer.toString(preach.tick) + (!preach.preachedWithRing && preach.ringTick != 0 ? " (" + Integer.toString(preach.ringTick) + ")" : ""))
+				.build());
 	}
 }
 
