@@ -28,4 +28,15 @@ public interface GodbookConfig extends Config
 	{
 		return 157;
 	}
+
+	@ConfigItem(
+			position = 2,
+			keyName = "emote",
+			name = "Emote",
+			description = "Emote activating a timer"
+	)
+	default Emote emote()
+	{
+		return Emote.YES;
+	}
 }

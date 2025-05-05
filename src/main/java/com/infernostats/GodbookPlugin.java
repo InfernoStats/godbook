@@ -66,6 +66,9 @@ public class GodbookPlugin extends Plugin
 
 		if (GodbookAnimationID.isGodbookAnimation(event.getActor().getAnimation()))
 			players.put(event.getActor().getName(), 0);
+
+		if (event.getActor().getAnimation() == config.emote().getAnimationId())
+			players.put(event.getActor().getName(), 0);
 	}
 
 	@Subscribe
