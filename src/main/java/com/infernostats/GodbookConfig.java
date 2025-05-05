@@ -18,8 +18,19 @@ public interface GodbookConfig extends Config
 		return false;
 	}
 
+  @ConfigItem(
+      position = 1,
+      keyName = "instanceOnly",
+      name = "Instance Only",
+      description = "Only display the overlay when in an instance"
+  )
+  default boolean instanceOnly()
+  {
+    return false;
+  }
+
 	@ConfigItem(
-			position = 1,
+			position = 2,
 			keyName = "ticks",
 			name = "Ticks",
 			description = "How many ticks the counter remains active for"
@@ -29,14 +40,20 @@ public interface GodbookConfig extends Config
 		return 157;
 	}
 
-	@ConfigItem(
-			position = 2,
-			keyName = "emote",
-			name = "Emote",
-			description = "Emote activating a timer"
-	)
-	default Emote emote()
-	{
-		return Emote.YES;
-	}
+  enum AllowedAnimations {
+    EMOTES_ONLY,
+    GODBOOKS_ONLY,
+    BOTH
+  };
+
+  @ConfigItem(
+      position = 3,
+      keyName = "allowedAnimations",
+      name = "Allowed Animations",
+      description = "Trigger the overlay on Emotes, Godbooks, or Both"
+  )
+  default AllowedAnimations animations()
+  {
+    return AllowedAnimations.BOTH;
+  }
 }

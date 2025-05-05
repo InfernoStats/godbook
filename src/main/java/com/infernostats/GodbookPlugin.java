@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.AnimationChanged;
 import net.runelite.api.events.GameTick;
+import net.runelite.api.gameval.VarbitID;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
@@ -19,7 +20,8 @@ import java.util.LinkedHashMap;
 
 @Slf4j
 @PluginDescriptor(
-	name = "Godbook"
+  name = "Godbook",
+  tags = {"timer", "timing", "maiden", "xarpus", "verzik"}
 )
 public class GodbookPlugin extends Plugin
 {
@@ -58,18 +60,30 @@ public class GodbookPlugin extends Plugin
 		players.clear();
 	}
 
-	@Subscribe
-	public void onAnimationChanged(final AnimationChanged event)
-	{
+  @Subscribe
+  public void onAnimationChanged(final AnimationChanged event)
+  {
 		if (config.theatreOnly() && !isInTheatreOfBlood())
 			return;
 
-		if (GodbookAnimationID.isGodbookAnimation(event.getActor().getAnimation()))
-			players.put(event.getActor().getName(), 0);
+    if (config.instanceOnly() && !isInInstance())
+      return;
 
-		if (event.getActor().getAnimation() == config.emote().getAnimationId())
-			players.put(event.getActor().getName(), 0);
-	}
+    switch (config.animations()) {
+      case BOTH: {
+        if (TimingAnimationID.isTimingAnimation(event.getActor().getAnimation()))
+          players.put(event.getActor().getName(), 0);
+      }
+      case GODBOOKS_ONLY: {
+        if (TimingAnimationID.isGodbookAnimation(event.getActor().getAnimation()))
+          players.put(event.getActor().getName(), 0);
+      }
+      case EMOTES_ONLY: {
+        if (TimingAnimationID.isEmoteAnimation(event.getActor().getAnimation()))
+          players.put(event.getActor().getName(), 0);
+      }
+    }
+  }
 
 	@Subscribe
 	public void onGameTick(GameTick event)
@@ -84,8 +98,17 @@ public class GodbookPlugin extends Plugin
 			.removeIf(i -> i.getValue() >= config.maxTicks());
 	}
 
-	private boolean isInTheatreOfBlood()
-	{
-		return client.getVar(Varbits.THEATRE_OF_BLOOD) != 0;
-	}
+  private boolean isInTheatreOfBlood()
+  {
+    return client.getVarbitValue(VarbitID.TOB_CLIENT_PARTYSTATUS) != 0;
+  }
+
+  private boolean isInInstance()
+  {
+    WorldView wv = client.getTopLevelWorldView();
+    if (wv == null) {
+      return false;
+    }
+    return wv.isInstance();
+  }
 }

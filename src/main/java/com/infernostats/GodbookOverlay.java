@@ -35,7 +35,7 @@ class GodbookOverlay extends Overlay
 
 		if (!players.isEmpty())
 		{
-			panelComponent.setPreferredSize(new Dimension(getMaxWidth(graphics, players, title) + 10, 0));
+			panelComponent.setPreferredSize(new Dimension(getMaxWidth(graphics, players, title) + 14, 0));
 			panelComponent.getChildren().add(TitleComponent.builder().text(title).color(Color.green).build());
 
 			players.forEach(this::addPlayerToOverlay);
