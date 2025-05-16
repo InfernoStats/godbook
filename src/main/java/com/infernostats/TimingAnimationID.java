@@ -19,6 +19,7 @@ public class TimingAnimationID {
   public static final int BOOK_OF_LAW_OR = 9440;
   public static final int BOOK_OF_DARKNESS = 7155;
   public static final int BOOK_OF_DARKNESS_OR = 9441;
+  public static final int SOULFLAME_HORN = 12158;
 
   public static final int EMOTE_YES = 855;
   public static final int EMOTE_NO = 856;
@@ -39,7 +40,8 @@ public class TimingAnimationID {
           BOOK_OF_LAW,
           BOOK_OF_LAW_OR,
           BOOK_OF_DARKNESS,
-          BOOK_OF_DARKNESS_OR
+          BOOK_OF_DARKNESS_OR,
+              SOULFLAME_HORN
       )
   );
 
