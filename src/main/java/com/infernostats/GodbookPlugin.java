@@ -16,7 +16,10 @@ import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
 
+import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @PluginDescriptor(
@@ -88,6 +91,8 @@ public class GodbookPlugin extends Plugin
           players.put(event.getActor().getName(), 0);
       }
     }
+
+	reorderPreaches();
   }
 
 	@Subscribe
@@ -101,6 +106,16 @@ public class GodbookPlugin extends Plugin
 
 		players.entrySet()
 			.removeIf(i -> i.getValue() >= config.maxTicks());
+	}
+
+	private void reorderPreaches() {
+		players = players.entrySet()
+				.stream()
+				.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+				.collect(Collectors.toMap(
+						Map.Entry::getKey,
+						Map.Entry::getValue,
+						(oldValue, newValue) -> newValue, LinkedHashMap::new));
 	}
 
   private boolean isInTheatreOfBlood()
