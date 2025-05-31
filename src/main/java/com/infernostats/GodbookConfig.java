@@ -56,4 +56,15 @@ public interface GodbookConfig extends Config
   {
     return AllowedAnimations.BOTH;
   }
+
+  @ConfigItem(
+      position = 4,
+      keyName = "reverse",
+      name = "Reverse Player List",
+      description = "Display the current list of players in reverse order"
+  )
+  default boolean reverse()
+  {
+    return false;
+  }
 }
